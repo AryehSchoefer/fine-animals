@@ -1,13 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
+import Header from "../components/Header";
 import Post from "../components/Post";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -18,7 +17,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header initialRoute={true} />
       <Main />
       <AuthShowcase />
     </>
@@ -26,68 +25,6 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-const Header: React.FC = () => {
-  const placeholderProfilePicURL =
-    "https://pbs.twimg.com/profile_images/1422497941915381760/zEf2qbss_400x400.jpg";
-
-  const { data: sessionData } = useSession();
-
-  console.log(sessionData?.user?.image);
-
-  return (
-    <header className="navbar bg-base-100">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl normal-case">Fine Animals</a>
-      </div>
-      <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered"
-          />
-        </div>
-        {sessionData ? (
-          <div className="dropdown-end dropdown">
-            <label tabIndex={0} className="avatar btn btn-ghost btn-circle">
-              <div className="w-10 rounded-full">
-                <img
-                  src={
-                    sessionData?.user?.image
-                      ? sessionData.user.image
-                      : placeholderProfilePicURL
-                  }
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a onClick={() => signOut()}>Sign out</a>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <button className="btn" onClick={() => signIn()}>
-            Sign In
-          </button>
-        )}
-      </div>
-    </header>
-  );
-};
 
 const Main: React.FC = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
