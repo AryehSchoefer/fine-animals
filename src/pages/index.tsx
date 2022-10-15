@@ -3,6 +3,8 @@ import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
+import Post from "../components/Post";
+
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
 
@@ -89,18 +91,19 @@ const Header: React.FC = () => {
 
 const Main: React.FC = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-  // const { data: posts } = trpc.post.getPosts.useQuery({ take: 10 });
+  const { data: posts } = trpc.post.getPosts.useQuery({ take: 10 });
 
   return (
     <main className="mx-auto flex min-h-screen flex-col items-center justify-center bg-stone-200 p-4">
-      {/* {posts?.map((post) => (
+      {/* TODO: Add key prop */}
+      {posts?.map((post) => (
         <Post
           imageUrl={post.imageUrl}
           title={post.title}
           description={post.description}
-          creator={post.userId}
+          creator={{ name: post.creator.name, creatorId: post.userId }}
         />
-      ))} */}
+      ))}
       <div className="flex w-full items-center justify-center pt-6 text-2xl text-blue-500">
         {hello.data ? <p>{hello.data.greeting}</p> : <p>loading...</p>}
       </div>

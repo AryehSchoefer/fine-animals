@@ -9,6 +9,13 @@ export const postRouter = router({
       const data = await ctx.prisma.post.findMany({
         skip,
         take,
+        include: {
+          creator: {
+            select: {
+              name: true,
+            },
+          },
+        },
       });
       return data;
     }),
