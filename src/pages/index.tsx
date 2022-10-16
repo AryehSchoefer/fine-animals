@@ -19,7 +19,6 @@ const Home: NextPage = () => {
       </Head>
       <Header initialRoute={true} />
       <Main />
-      <AuthShowcase />
     </>
   );
 };
@@ -31,20 +30,21 @@ const Main: React.FC = () => {
   const { data: posts } = trpc.post.getPosts.useQuery({ take: 10 });
 
   return (
-    <main className="mx-auto flex min-h-screen flex-col items-center justify-center bg-stone-200 p-4">
-      {/* TODO: Add key prop */}
+    <main className="mx-auto flex min-h-screen flex-wrap items-center justify-center gap-6 bg-stone-200 p-4">
+      {/* Index as key prop not a bad idea in this instance (https://www.developerway.com/posts/react-key-attribute) */}
       {posts?.map((post) => (
         <Post
+          key={posts.indexOf(post)}
           imageUrl={post.imageUrl}
           title={post.title}
           description={post.description}
           creator={{ name: post.creator.name, creatorId: post.userId }}
         />
       ))}
-      <div className="flex w-full items-center justify-center pt-6 text-2xl text-blue-500">
+      <div className="flex w-full items-center justify-center bg-stone-400 pt-6 text-2xl text-blue-500">
         {hello.data ? <p>{hello.data.greeting}</p> : <p>loading...</p>}
       </div>
-      <AuthShowcase />
+      {/* <AuthShowcase /> */}
     </main>
   );
 };
