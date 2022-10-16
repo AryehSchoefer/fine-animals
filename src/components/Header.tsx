@@ -13,7 +13,10 @@ const Header = ({ initialRoute = false }: { initialRoute?: boolean }) => {
         <Link href="/">
           <a className="btn btn-ghost text-xl normal-case">Fine Animals</a>
         </Link>
-        <div className="tooltip tooltip-bottom" data-tip="New Post">
+        <div
+          className="tooltip tooltip-bottom"
+          data-tip={initialRoute ? "New Post" : "Go Back"}
+        >
           <Link href={initialRoute ? "/new_post" : "/"}>
             <button className="btn" disabled={sessionData ? false : true}>
               <svg
