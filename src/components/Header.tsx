@@ -8,14 +8,14 @@ const Header = ({ initialRoute = false }: { initialRoute?: boolean }) => {
   const { data: sessionData } = useSession();
 
   return (
-    <header className="navbar bg-base-100">
+    <header className="navbar sticky top-0 bg-base-100">
       <div className="flex-1 gap-1">
         <Link href="/">
           <a className="btn btn-ghost text-xl normal-case">Fine Animals</a>
         </Link>
         <div className="tooltip tooltip-bottom" data-tip="New Post">
           <Link href={initialRoute ? "/new_post" : "/"}>
-            <button className="btn">
+            <button className="btn" disabled={sessionData ? false : true}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
