@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
 export const postRouter = router({
@@ -18,5 +18,17 @@ export const postRouter = router({
         },
       });
       return data;
+    }),
+  uploadPost: protectedProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        imageBytes: z.any(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      // yo
+      // yo
     }),
 });
